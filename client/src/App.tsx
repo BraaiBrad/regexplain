@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MatchTester from "./components/MatchTester";
+import TokenHelp from "./components/TokenHelp";
 
 type Mode = "beginner" | "advanced";
 
@@ -64,7 +65,7 @@ export default function App() {
       </form>
     
       <MatchTester pattern={regex} flags={flags} />
-      
+
       {error && <p style={{ color: "red" }}>{error}</p>}
       {result && (
         <div style={{ marginTop: "2rem" }}>
@@ -74,6 +75,8 @@ export default function App() {
           <ul>{result.steps.map((s: string, i: number) => <li key={i}>{s}</li>)}</ul>
         </div>
       )}
+
+      <TokenHelp pattern={regex} />
     </main>
   );
 }
