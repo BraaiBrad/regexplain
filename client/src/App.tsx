@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MatchTester from "./components/MatchTester";
 
 type Mode = "beginner" | "advanced";
 
@@ -9,11 +10,21 @@ export default function App() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string>("");
 
+  /**
+   * Calls the API to explain the regex
+   * Escape HTML special characters to prevent XSS
+   * @param e form submit event
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setResult(null);
 
+    /**
+     * Call the /api/explain endpoint with regex, flags, and mode
+     * If successful, setResult with the response JSON
+     * If error, setError with the error message
+     */
     try {
       const res = await fetch("/api/explain", {
         method: "POST",
@@ -51,7 +62,9 @@ export default function App() {
         </label>
         <button type="submit">Explain</button>
       </form>
-
+    
+      <MatchTester pattern={regex} flags={flags} />
+      
       {error && <p style={{ color: "red" }}>{error}</p>}
       {result && (
         <div style={{ marginTop: "2rem" }}>
