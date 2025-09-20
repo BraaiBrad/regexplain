@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { setPermalink, readParams, copy } from "./lib/share";
 import MatchTester from "./components/MatchTester";
 import TokenHelp from "./components/TokenHelp";
 
@@ -21,6 +22,13 @@ export default function App() {
     setError("");
     setResult(null);
 
+    useEffect(() => {
+      const { regex, flags, mode } = readParams();
+      if (regex) setRegex(regex);
+      if (flags) setFlags(flags);
+      if (mode === "beginner" || mode === "advanced") setMode(mode as any);
+    }, []);
+
     /**
      * Call the /api/explain endpoint with regex, flags, and mode
      * If successful, setResult with the response JSON
@@ -42,6 +50,12 @@ export default function App() {
     }
   };
 
+  setPermalink({ regex, flags, mode });
+
+  /**
+   * Renders the main app UI
+   */
+
   return (
     <main style={{ maxWidth: 800, margin: "2rem auto", fontFamily: "sans-serif" }}>
       <h1>Explain My Regex</h1>
@@ -50,6 +64,7 @@ export default function App() {
           Regex
           <input value={regex} onChange={(e) => setRegex(e.target.value)} style={{ width: "100%" }} />
         </label>
+        <button type="button" onClick={() => copy(regex)}>Copy Regex</button>
         <label>
           Flags
           <input value={flags} onChange={(e) => setFlags(e.target.value)} />
