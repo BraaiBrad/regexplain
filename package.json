@@ -1,0 +1,13 @@
+{
+    "name": "regexplain",
+    "private": true,
+    "version": "0.1.0",
+    "scripts": {
+      "dev": "concurrently -n WEB,API -c magenta,cyan \"npm --prefix client run dev\" \"npm --prefix server run dev\"",
+      "build": "echo build coming soon"
+    },
+    "devDependencies": {
+      "concurrently": "^9.0.0"
+    }
+  }
+  
